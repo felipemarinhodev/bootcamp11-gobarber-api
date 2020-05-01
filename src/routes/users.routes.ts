@@ -13,6 +13,8 @@ userRouter.post('/', async (request, response) => {
       password,
     });
 
+    delete user.password;
+
     return response.send(user);
   } catch (error) {
     return response.status(400).json({ error: error.message });
