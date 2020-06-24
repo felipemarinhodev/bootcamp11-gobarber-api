@@ -3,7 +3,7 @@ import { isAfter, addHours } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 import IUsersRepository from '../repositories/IUsersRepository';
-import IUserTokensRepository from '../repositories/IUserTokenRepository';
+import IUserTokenRepository from '../repositories/IUserTokenRepository';
 import IHashProvider from '../providers/HashProvider/model/IHashProvider';
 
 interface IRequest {
@@ -17,15 +17,15 @@ class ResetPasswordService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('UserTokensRepository')
-    private userTokensRepository: IUserTokensRepository,
+    @inject('UserTokenRepository')
+    private userTokenRepository: IUserTokenRepository,
 
-    @inject('IHashProvider')
+    @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ token, password }: IRequest): Promise<void> {
-    const userToken = await this.userTokensRepository.findByToken(token);
+    const userToken = await this.userTokenRepository.findByToken(token);
     if (!userToken) {
       throw new AppError('User token does not exists');
     }
